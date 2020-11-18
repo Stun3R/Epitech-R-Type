@@ -1,0 +1,49 @@
+#!/bin/sh
+
+function build_project() {
+    if [[ ! -d "build" ]]; then
+        mkdir build && cd build && conan install .. --build=missing && cmake .. -G "Unix Makefiles" && cmake -build . && make && cd ..
+    else
+        cd build && conan install .. --build=missing && cmake .. -G "Unix Makefiles" && cmake -build . && make && cd ..
+    fi
+}
+
+function make_binary() {
+    if [[ ! -d "build" ]]; then
+        build_project
+    else
+        cd build && make && cd ..
+    fi
+}
+
+function clean() {
+    rm -rf r-type_client && rm -rf r-type_server
+}
+
+function cleanAll() {
+    rm -rf build && rm -rf r-type_client && rm -rf r-type_server
+}
+
+function help() {
+    echo "Usage:      ./tool.sh param"
+    echo ""
+    echo "build       build the CMake"
+    echo "make        create the Server/Client binary"
+    echo "clean       clean the binary"
+    echo "cleanAll       clean the project"
+    echo "help        show the usage"
+}
+
+if [[ "$1" == "build" ]]; then
+    build_project
+elif [[ "$1" == "make" ]]; then
+    make_binary
+elif [[ "$1" == "clean" ]]; then
+    clean
+elif [[ "$1" == "cleanAll" ]]; then
+    cleanAll
+elif [[ "$1" == "help" ]]; then
+    help
+else
+    help
+fi

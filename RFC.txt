@@ -1,0 +1,61 @@
+                        CLIENT SERVER PROTOCOL
+
+Status of this RFC
+
+   This RFC provides information about the Client - Server Protocol for
+   the R-Type Video Games.
+
+Copyright Notice
+
+   Copyright (C) The R-TYPE Society (2018).  All Rights Reserved.
+
+Table of Contents
+
+   1.   Protocol . . . . . . . . . . . . . . . . . . . . . . . . . . . 2
+
+
+
+
+
+R-TYPE & Co                 Informational                       [Page 1]
+
+RFC XXXX                CLIENT SERVER PROTOCOL             December 2018
+
+
+1.  Introduction
+
+The following are the mandatory exchange commands from client to server:
+    ->  : Request command from client to server
+    <-  : Reply from server to client
+    <-- : Reply from server to all client
+
+ROOM LIST : <TYPE>
+    ->  LIST
+    <-  [ROOMS LIST]
+
+ROOM JOIN : <TYPE> <ROOM>
+    ->  JOIN <ROOM>
+    <-  [ENTITY LIST]
+        <-  NEWPLAYER [INFOS]
+        <-- NEWCOOP [INFOS]
+
+ROOM CREATE : <TYPE> <ROOM>
+    ->  CREATE <ROOM>
+    <-  FAILED
+    <-  NEWPLAYER [INFOS]
+
+ROOM QUIT : <TYPE> <ACTION> <ROOM> <PLAYERID>
+    ->   ROOM QUIT <ROOM> <PLAYERID>
+    <--  DESTROY <PLAYERID>
+
+ROOM HOST DESTROY : <TYPE> <ROOM> <PLAYERID>
+    ->  ROOM <ROOM> <PLAYERID>
+    <-- LEAVE
+
+LAUNCH GAME : <TYPE> <ACTION> <ROOM>
+    ->  ROOM READY <ROOM>
+    <-- LAUNCH
+
+PLAYER MOVE : <TYPE> <ACTION> <ROOM> <DIR> <PLAYERID>
+    ->  ROOM MOVE <DIR> <ROOM> <PLAYERID>
+    <-- MOVE <X> <Y> <PLAYERID>
